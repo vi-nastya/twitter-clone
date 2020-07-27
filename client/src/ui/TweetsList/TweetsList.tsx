@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { TweetData } from '../../api/api-types'
 import { Tweet } from '../Tweet/Tweet'
-import { color } from '../helpers/colors'
+import { color } from '../helpers/color'
 
 export type TweetsListProps = {
   tweetsData: TweetData[]

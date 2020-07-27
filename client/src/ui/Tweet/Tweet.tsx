@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { TweetData } from '../../api/api-types'
-import { color } from '../helpers/colors'
+import { color } from '../helpers/color'
 import defaultAvatar from '../../assets/default_avatar.png'
 
 export type TweetProps = {
