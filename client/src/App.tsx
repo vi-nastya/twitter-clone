@@ -65,6 +65,7 @@ const App = () => {
             name="text"
             defaultValue=""
             ref={register({ required: true })}
+            placeholder="What's happening?"
           />
           {/* errors will return when field validation fails  */}
           {errors.exampleRequired && <span>This field is required</span>}
@@ -94,5 +95,7 @@ const TweetFormWrapper = styled.div`
     margin-bottom: 16px;
     border-radius: 8px;
     padding: 8px 16px;
+
+    font: inherit;
   }
 `
