@@ -8,6 +8,7 @@ import { TweetsList } from './ui/TweetsList/TweetsList'
 import Button from './ui/basic/Button/Button'
 import { resetInput } from './ui/helpers/mixins'
 import { color } from './ui/helpers/color'
+import { TweetData } from './api/api-types'
 
 const tweetsData = [
   {
@@ -36,12 +37,14 @@ export type NewTweetFormData = {
 }
 
 const App = () => {
-  const [apiResponse, setApiResponse] = useState('')
+  const [apiResponse, setApiResponse] = useState<TweetData[]>([])
 
   const callAPI = () => {
-    fetch('http://localhost:9000/testAPI')
-      .then((res) => res.text())
-      .then((res) => setApiResponse(res))
+    fetch('http://localhost:9000/api/tweets')
+      .then((res) => res.json())
+      .then((res) => {
+        setApiResponse(res as TweetData[])
+      })
   }
 
   useEffect(() => {
@@ -54,10 +57,11 @@ const App = () => {
 
   const onSubmit = (data: NewTweetFormData) => console.log(data)
 
+  console.log('api response', apiResponse)
   return (
     <div className="App">
       {/* <p>Api response: {apiResponse}</p> */}
-      <TweetsList tweetsData={tweetsData} />
+      <TweetsList tweetsData={apiResponse} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <TweetFormWrapper>
           {/* register your input into the hook by invoking the "register" function */}

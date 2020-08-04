@@ -17,14 +17,14 @@ export const Tweet: React.FC<TweetProps> = ({ data }) => {
       <TweetWrapper>
         <TweetTopSection>
           <AuthorName>{data.userName}</AuthorName>
-          <AuthorHandle>@{data.user}</AuthorHandle>
-          <TweetDate>{data.date}</TweetDate>
+          <AuthorHandle>@{data.userHandle}</AuthorHandle>
+          <TweetDate>{data.published}</TweetDate>
         </TweetTopSection>
         <TweetText>{data.text}</TweetText>
         <TweetActions>
-          <span>Comments</span>
-          <span>Share</span>
-          <span>Like</span>
+          <span>{data.comments} Comments</span>
+          <span>{data.shares} Share</span>
+          <span>{data.likes} Like</span>
         </TweetActions>
       </TweetWrapper>
     </StyledTweet>

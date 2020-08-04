@@ -1,6 +1,10 @@
 export type TweetData = {
-  text: string
-  date: string
-  user: string
   userName: string
+  userHandle: string
+  published: string
+  text: string
+  comments: number
+  shares: number
+  likes: number
+  id: string
 }
