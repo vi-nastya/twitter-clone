@@ -20,25 +20,12 @@ export default function (state = initialState, action) {
       }
     }
     case SET_TWEETS: {
-      const { tweetsData } = action.payload
+      const tweetsData = action.payload
       return {
         ...state,
         allTweets: tweetsData,
       }
     }
-    // case TOGGLE_TODO: {
-    //   const { id } = action.payload
-    //   return {
-    //     ...state,
-    //     byIds: {
-    //       ...state.byIds,
-    //       [id]: {
-    //         ...state.byIds[id],
-    //         completed: !state.byIds[id].completed,
-    //       },
-    //     },
-    //   }
-    // }
     default:
       return state
   }

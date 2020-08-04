@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 import { hot } from 'react-hot-loader'
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
@@ -9,24 +10,32 @@ import Button from './ui/basic/Button/Button'
 import { resetInput } from './ui/helpers/mixins'
 import { color } from './ui/helpers/color'
 import { TweetData } from './api/api-types'
+import { RootState } from './store/reducers'
+import { fetchTweets } from './store/actions'
 
 export type NewTweetFormData = {
   text: string
 }
 
-const App = () => {
+type AppProps = {
+  tweetsData: TweetData[]
+  fetchTweets: () => void
+}
+
+const App: React.FC<AppProps> = ({ tweetsData = [], fetchTweets }) => {
   const [apiResponse, setApiResponse] = useState<TweetData[]>([])
 
-  const callAPI = () => {
-    fetch('http://localhost:9000/api/tweets')
-      .then((res) => res.json())
-      .then((res) => {
-        setApiResponse(res as TweetData[])
-      })
-  }
+  // const callAPI = () => {
+  //   fetch('http://localhost:9000/api/tweets')
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       setApiResponse(res as TweetData[])
+  //     })
+  // }
 
   useEffect(() => {
-    callAPI()
+    // callAPI()
+    fetchTweets()
   }, [])
 
   const { register, handleSubmit, watch, errors } = useForm({
@@ -35,11 +44,11 @@ const App = () => {
 
   const onSubmit = (data: NewTweetFormData) => console.log(data)
 
-  console.log('api response', apiResponse)
+  //console.log('api response', apiResponse)
   return (
     <div className="App">
       {/* <p>Api response: {apiResponse}</p> */}
-      <TweetsList tweetsData={apiResponse} />
+      <TweetsList tweetsData={tweetsData} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <TweetFormWrapper>
           {/* register your input into the hook by invoking the "register" function */}
@@ -58,7 +67,15 @@ const App = () => {
   )
 }
 
-export default hot(module)(App)
+// export default hot(module)(App)
+
+const mapStateToProps = (state: RootState) => ({
+  tweetsData: state.tweets.allTweets,
+})
+
+export default connect(mapStateToProps, {
+  fetchTweets,
+})(hot(module)(App))
 
 const TweetFormWrapper = styled.div`
   display: flex;

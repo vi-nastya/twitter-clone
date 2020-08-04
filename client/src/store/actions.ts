@@ -1,6 +1,7 @@
 import { ADD_TWEET, DELETE_TWEET, SET_TWEETS } from './actionTypes'
 import { TweetData } from '../api/api-types'
 
+// actions
 interface SetTweetsAction {
   type: typeof SET_TWEETS
   payload: TweetData[]
@@ -16,6 +17,7 @@ interface DeleteTweetAction {
   payload: string
 }
 
+// action creators
 export const setTweets = (tweetsData: TweetData[]): SetTweetsAction => ({
   type: SET_TWEETS,
   payload: tweetsData,
@@ -30,3 +32,14 @@ export const deleteTweet = (tweetId: string): DeleteTweetAction => ({
   type: DELETE_TWEET,
   payload: tweetId,
 })
+
+export const fetchTweets = () => {
+  // @ts-ignore
+  return (dispatch) => {
+    fetch('http://localhost:9000/api/tweets')
+      .then((res) => res.json())
+      .then((res) => {
+        dispatch(setTweets(res as TweetData[]))
+      })
+  }
+}
