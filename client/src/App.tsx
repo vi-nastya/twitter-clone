@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { hot } from 'react-hot-loader'
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
 
 import './App.css'
 import { TweetsList } from './ui/TweetsList/TweetsList'
@@ -12,9 +13,14 @@ import { color } from './ui/helpers/color'
 import { TweetData } from './api/api-types'
 import { RootState } from './store/reducers'
 import { fetchTweets } from './store/actions'
+import moment from 'moment'
+
+moment.locale('en')
 
 export type NewTweetFormData = {
   text: string
+  userName: string
+  userHandle: string
 }
 
 type AppProps = {
@@ -38,11 +44,32 @@ const App: React.FC<AppProps> = ({ tweetsData = [], fetchTweets }) => {
     fetchTweets()
   }, [])
 
-  const { register, handleSubmit, watch, errors } = useForm({
+  const { register, handleSubmit, watch, errors, reset } = useForm({
     mode: 'onChange',
   })
 
-  const onSubmit = (data: NewTweetFormData) => console.log(data)
+  const onSubmit = (data: NewTweetFormData) => {
+    console.log(data)
+
+    const newTweetData = {
+      ...data,
+      comments: 0,
+      likes: 0,
+      shares: 0,
+      published: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000]'),
+    }
+
+    axios.post('http://localhost:9000/api/tweets', newTweetData).then(
+      (response: any) => {
+        console.log(response)
+        reset()
+        fetchTweets()
+      },
+      (error: any) => {
+        console.log(error)
+      }
+    )
+  }
 
   //console.log('api response', apiResponse)
   return (
@@ -52,6 +79,18 @@ const App: React.FC<AppProps> = ({ tweetsData = [], fetchTweets }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <TweetFormWrapper>
           {/* register your input into the hook by invoking the "register" function */}
+          <input
+            name="userHandle"
+            defaultValue=""
+            ref={register({ required: true })}
+            placeholder="Twitter handle"
+          />
+          <input
+            name="userName"
+            defaultValue=""
+            ref={register({ required: true })}
+            placeholder="Display name"
+          />
           <input
             name="text"
             defaultValue=""

@@ -1,4 +1,5 @@
 const reactHotReloadPlugin = require('craco-plugin-react-hot-reload')
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 
 module.exports = {
   plugins: [
@@ -14,6 +15,11 @@ module.exports = {
           return webpackConfig
         },
       },
+    },
+    {
+      plugin: new MomentLocalesPlugin({
+        localesToKeep: ['ru'],
+      }),
     },
   ],
 }
