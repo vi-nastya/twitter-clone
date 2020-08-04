@@ -1,4 +1,4 @@
-import { ADD_TWEET } from '../actionTypes'
+import { ADD_TWEET, SET_TWEETS } from '../actionTypes'
 import { TweetData } from '../../api/api-types'
 
 export type TweetsState = {
@@ -17,6 +17,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         allTweets: [...state.allTweets, tweetData],
+      }
+    }
+    case SET_TWEETS: {
+      const { tweetsData } = action.payload
+      return {
+        ...state,
+        allTweets: tweetsData,
       }
     }
     // case TOGGLE_TODO: {
