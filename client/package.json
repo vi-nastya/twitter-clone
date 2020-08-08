@@ -15,6 +15,7 @@
     "@types/react-redux": "^7.1.9",
     "@types/styled-components": "^5.1.1",
     "axios": "^0.19.2",
+    "cypress": "^4.12.1",
     "moment": "^2.27.0",
     "moment-locales-webpack-plugin": "^1.2.0",
     "react": "^16.13.1",
@@ -31,7 +32,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "craco eject"
+    "eject": "craco eject",
+    "e2e": "cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"
