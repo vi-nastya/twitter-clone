@@ -3,6 +3,10 @@ import styled from 'styled-components'
 import { TweetData } from '../../api/api-types'
 import { color } from '../helpers/color'
 import defaultAvatar from '../../assets/default_avatar.png'
+import { ReactComponent as LikeIcon } from '../../assets/icons/like.svg'
+import { ReactComponent as LikedIcon } from '../../assets/icons/liked.svg'
+import EditIcon from '../../assets/icons/edit.svg'
+import DeleteIcon from '../../assets/icons/delete.svg'
 
 export type TweetProps = {
   data: TweetData
@@ -22,9 +26,12 @@ export const Tweet: React.FC<TweetProps> = ({ data }) => {
         </TweetTopSection>
         <TweetText>{data.text}</TweetText>
         <TweetActions>
-          <span>{data.comments} Comments</span>
-          <span>{data.shares} Share</span>
-          <span>{data.likes} Like</span>
+          {/* <span>{data.comments} Comments</span>
+          <span>{data.shares} Share</span> */}
+          <Likes>
+            {data.likes === 0 ? <LikeIcon /> : <LikedIcon />}
+            {data.likes}
+          </Likes>
         </TweetActions>
       </TweetWrapper>
     </StyledTweet>
@@ -120,5 +127,16 @@ const TweetActions = styled.div`
 
   & > * {
     margin-right: 32px;
+  }
+`
+
+const Likes = styled.div`
+  display: flex;
+  align-items: center;
+
+  svg {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
   }
 `
