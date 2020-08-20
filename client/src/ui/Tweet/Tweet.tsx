@@ -6,7 +6,7 @@ import defaultAvatar from '../../assets/default_avatar.png'
 import { ReactComponent as LikeIcon } from '../../assets/icons/like.svg'
 import { ReactComponent as LikedIcon } from '../../assets/icons/liked.svg'
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg'
-import DeleteIcon from '../../assets/icons/delete.svg'
+import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg'
 import IconButton from '../basic/IconButton/IconButton'
 
 export type TweetProps = {
@@ -35,6 +35,9 @@ export const Tweet: React.FC<TweetProps> = ({ data }) => {
           </Likes>
           <IconButton>
             <EditIcon />
+          </IconButton>
+          <IconButton>
+            <DeleteIcon />
           </IconButton>
         </TweetActions>
       </TweetWrapper>

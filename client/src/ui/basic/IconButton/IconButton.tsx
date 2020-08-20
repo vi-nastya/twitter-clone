@@ -7,6 +7,7 @@ import { device } from '../../helpers/device'
 export type IconButtonProps = {
   children?: React.ReactChild
   disabled?: boolean
+  className?: string
   type?: 'submit' | 'button' | 'reset' | undefined
 } & React.HTMLAttributes<HTMLButtonElement>
 
@@ -14,10 +15,16 @@ const IconButton = ({
   children,
   disabled = false,
   type = 'button',
+  className = '',
   ...rest
 }: IconButtonProps) => {
   return (
-    <StyledButton disabled={disabled} {...rest} type={type}>
+    <StyledButton
+      disabled={disabled}
+      type={type}
+      className={className}
+      {...rest}
+    >
       {children}
     </StyledButton>
   )

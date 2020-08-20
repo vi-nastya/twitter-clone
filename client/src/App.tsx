@@ -14,6 +14,7 @@ import { TweetData } from './api/api-types'
 import { RootState } from './store/reducers'
 import { fetchTweets } from './store/actions'
 import moment from 'moment'
+import TweetForm from './ui/TweetForm/TweetForm'
 
 moment.locale('en')
 
@@ -29,24 +30,10 @@ type AppProps = {
 }
 
 const App: React.FC<AppProps> = ({ tweetsData = [], fetchTweets }) => {
-  const [apiResponse, setApiResponse] = useState<TweetData[]>([])
-
-  // const callAPI = () => {
-  //   fetch('http://localhost:9000/api/tweets')
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       setApiResponse(res as TweetData[])
-  //     })
-  // }
-
   useEffect(() => {
     // callAPI()
     fetchTweets()
   }, [])
-
-  const { register, handleSubmit, watch, errors, reset } = useForm({
-    mode: 'onChange',
-  })
 
   const onSubmit = (data: NewTweetFormData) => {
     console.log(data)
@@ -62,7 +49,7 @@ const App: React.FC<AppProps> = ({ tweetsData = [], fetchTweets }) => {
     axios.post('http://localhost:9000/api/tweets', newTweetData).then(
       (response: any) => {
         console.log(response)
-        reset()
+        //reset()
         fetchTweets()
       },
       (error: any) => {
@@ -71,42 +58,14 @@ const App: React.FC<AppProps> = ({ tweetsData = [], fetchTweets }) => {
     )
   }
 
-  //console.log('api response', apiResponse)
   return (
     <div className="App">
       {/* <p>Api response: {apiResponse}</p> */}
       <TweetsList tweetsData={tweetsData} />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TweetFormWrapper>
-          {/* register your input into the hook by invoking the "register" function */}
-          <input
-            name="userHandle"
-            defaultValue=""
-            ref={register({ required: true })}
-            placeholder="Twitter handle"
-          />
-          <input
-            name="userName"
-            defaultValue=""
-            ref={register({ required: true })}
-            placeholder="Display name"
-          />
-          <input
-            name="text"
-            defaultValue=""
-            ref={register({ required: true })}
-            placeholder="What's happening?"
-          />
-          {/* errors will return when field validation fails  */}
-          {errors.exampleRequired && <span>This field is required</span>}
-          <Button type="submit" text="Tweet" />
-        </TweetFormWrapper>
-      </form>
+      <TweetForm isOpen={true} onSubmit={onSubmit} onClose={() => {}} />
     </div>
   )
 }
-
-// export default hot(module)(App)
 
 const mapStateToProps = (state: RootState) => ({
   tweetsData: state.tweets.allTweets,
