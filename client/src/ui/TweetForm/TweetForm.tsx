@@ -8,9 +8,9 @@ import Modal from 'react-modal'
 
 import moment from 'moment'
 import Button from '../basic/Button/Button'
-import { RootState } from '../../store/reducers'
 import { resetInput } from '../helpers/mixins'
 import { color } from '../helpers/color'
+import { TweetsState } from '../../store/state'
 
 moment.locale('en')
 
@@ -122,8 +122,8 @@ const customStyles = {
   },
 }
 
-const mapStateToProps = (state: RootState) => ({
-  tweetsData: state.tweets.allTweets,
+const mapStateToProps = (state: TweetsState) => ({
+  tweetsData: state.tweetsList,
 })
 
 export default connect(mapStateToProps)(TweetForm)

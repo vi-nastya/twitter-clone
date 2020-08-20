@@ -11,10 +11,10 @@ import Button from './ui/basic/Button/Button'
 import { resetInput } from './ui/helpers/mixins'
 import { color } from './ui/helpers/color'
 import { TweetData } from './api/api-types'
-import { RootState } from './store/reducers'
-import { fetchTweets } from './store/actions'
 import moment from 'moment'
 import TweetForm from './ui/TweetForm/TweetForm'
+import { TweetsState } from './store/ducks/tweetsList'
+import { fetchTweets } from './store/ducks/tweetsList'
 
 moment.locale('en')
 
@@ -67,8 +67,8 @@ const App: React.FC<AppProps> = ({ tweetsData = [], fetchTweets }) => {
   )
 }
 
-const mapStateToProps = (state: RootState) => ({
-  tweetsData: state.tweets.allTweets,
+const mapStateToProps = (state: TweetsState) => ({
+  tweetsData: state.tweetsList,
 })
 
 export default connect(mapStateToProps, {
