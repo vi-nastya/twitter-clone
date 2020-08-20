@@ -5,8 +5,9 @@ import { color } from '../helpers/color'
 import defaultAvatar from '../../assets/default_avatar.png'
 import { ReactComponent as LikeIcon } from '../../assets/icons/like.svg'
 import { ReactComponent as LikedIcon } from '../../assets/icons/liked.svg'
-import EditIcon from '../../assets/icons/edit.svg'
+import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg'
 import DeleteIcon from '../../assets/icons/delete.svg'
+import IconButton from '../basic/IconButton/IconButton'
 
 export type TweetProps = {
   data: TweetData
@@ -32,6 +33,9 @@ export const Tweet: React.FC<TweetProps> = ({ data }) => {
             {data.likes === 0 ? <LikeIcon /> : <LikedIcon />}
             {data.likes}
           </Likes>
+          <IconButton>
+            <EditIcon />
+          </IconButton>
         </TweetActions>
       </TweetWrapper>
     </StyledTweet>
