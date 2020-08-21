@@ -3,14 +3,15 @@ module.exports = (mongoose) => {
 
   let tweetSchema = new Schema(
     {
-      userName: String,
-      userHandle: String,
-      avatar: String,
-      published: Date,
-      text: String,
-      comments: Number,
-      shares: Number,
-      likes: Number,
+      userName: { type: String, required: true },
+      userHandle: { type: String, required: false },
+      avatar: { type: String, required: false },
+      published: { type: Date, required: true },
+      text: { type: String, required: true },
+      image: { type: String, required: false },
+      comments: { type: Number, required: false },
+      shares: { type: Number, required: false },
+      likes: { type: Number, required: false },
     },
     { timestamp: true }
   )
