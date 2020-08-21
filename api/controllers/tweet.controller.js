@@ -72,7 +72,7 @@ exports.update = (req, res) => {
         res.status(404).send({
           message: `Cannot update Tweet with id=${id}. Maybe Tweet was not found!`,
         })
-      } else res.send({ message: 'Tweet was updated successfully.' })
+      } else res.send(data)
     })
     .catch((err) => {
       res.status(500).send({
