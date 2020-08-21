@@ -121,7 +121,7 @@ const customStyles = {
     borderRadius: 16,
     //osition: 'absolute',
 
-    '@media (max-width:1023px)': {
+    '@media (maxWidth:1023px)': {
       width: 'calc(100% - 32px)',
       maxWidth: '510px',
     },
