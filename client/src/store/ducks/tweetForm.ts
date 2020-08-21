@@ -50,6 +50,7 @@ export default function (
         ...state,
         tweetForm: {
           type: 'create',
+          tweetId: null,
         },
       }
     }

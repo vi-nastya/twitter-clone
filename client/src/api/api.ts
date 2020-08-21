@@ -14,17 +14,17 @@ class Api {
     return response.data
   }
 
-  async tweetGetById(id: number) {
+  async tweetGetById(id: string) {
     const response = await apiClient.get(`/tweets/${id}`)
     return response.data
   }
 
-  async tweetUpdate(id: number, data: TweetData) {
+  async tweetUpdate(id: string, data: TweetData) {
     const response = await apiClient.put(`/tweets/${id}`, data)
     return response.data
   }
 
-  async tweetDelete(id: number) {
+  async tweetDelete(id: string) {
     const response = await apiClient.delete(`/tweets/${id}`)
     return response.data
   }

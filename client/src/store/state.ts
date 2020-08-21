@@ -9,7 +9,7 @@ export const initialListState = {
 }
 
 export type TweetFormState = {
-  tweetForm: { type: 'create' } | { type: 'update'; tweetId: string } | null
+  tweetForm: { type: 'create' | 'update'; tweetId: string | null } | null
 }
 
 export const initialFormState = {

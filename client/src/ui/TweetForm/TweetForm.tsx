@@ -30,11 +30,17 @@ type TweetFormProps = {
   onClose: () => void
   onTweetAdd: (tweetData: TweetData) => void
   onTweetUpdate: (tweetData: TweetData) => void
+  tweetData: TweetData | null | undefined
 }
 
 const mapStateToProps = (state: RootState) => ({
   isOpen: !!state.form.tweetForm,
   type: state.form.tweetForm?.type || null,
+  tweetData:
+    state.form.tweetForm && state.form.tweetForm.tweetId
+      ? // @ts-ignore
+        state.list.tweetsList.find((t) => t.id === state.form.tweetForm.tweetId)
+      : null,
 })
 
 const mapDispatchToProps = {
@@ -49,22 +55,32 @@ const TweetForm: React.FC<TweetFormProps> = ({
   type,
   onTweetAdd,
   onTweetUpdate,
+  tweetData,
 }) => {
-  const { register, handleSubmit, watch, errors, reset } = useForm({
-    mode: 'onChange',
-  })
-
   const onSubmit = async (data: NewTweetFormData) => {
-    const newTweetData = {
-      ...data,
-      likes: 0,
-      published: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000]'),
-    }
-
-    const result = await api.tweetCreate(newTweetData)
     if (type === 'create') {
+      const newTweetData = {
+        ...data,
+        likes: 0,
+        published: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000]'),
+      }
+
+      const result = await api.tweetCreate(newTweetData)
+
       onTweetAdd(result)
     } else {
+      const updatedTweetData = {
+        ...(tweetData as TweetData),
+        userName: data.userName,
+        userHandle: data.userHandle,
+        text: data.text,
+        updated: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000]'),
+      }
+
+      const result = await api.tweetUpdate(
+        updatedTweetData.id,
+        updatedTweetData
+      )
       onTweetUpdate(result)
     }
     reset()
@@ -72,6 +88,26 @@ const TweetForm: React.FC<TweetFormProps> = ({
 
     // TODO: handle errors
   }
+
+  let initialValues
+  if (!!tweetData) {
+    initialValues = {
+      userName: tweetData.userName,
+      userHandle: tweetData.userHandle || '',
+      text: tweetData.text,
+    }
+  } else {
+    initialValues = {
+      userName: '',
+      userHandle: '',
+      text: '',
+    }
+  }
+
+  const { register, handleSubmit, watch, errors, reset } = useForm({
+    mode: 'onChange',
+    defaultValues: initialValues,
+  })
 
   return (
     <Modal
@@ -102,7 +138,7 @@ const TweetForm: React.FC<TweetFormProps> = ({
             placeholder="What's happening?"
           />
           {/* errors will return when field validation fails  */}
-          {errors.exampleRequired && <span>This field is required</span>}
+          {/* {errors.exampleRequired && <span>This field is required</span>} */}
           <Button type="submit" text="Tweet" />
         </TweetFormWrapper>
       </form>
