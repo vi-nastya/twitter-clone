@@ -13,7 +13,7 @@ const corsOptions = {
 
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
-const testAPIRouter = require('./routes/testAPI')
+// const testAPIRouter = require('./routes/testAPI')
 
 const app = express()
 app.use(cors(corsOptions))
