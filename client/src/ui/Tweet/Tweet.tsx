@@ -8,12 +8,22 @@ import { ReactComponent as LikedIcon } from '../../assets/icons/liked.svg'
 import { ReactComponent as EditIcon } from '../../assets/icons/edit.svg'
 import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg'
 import IconButton from '../basic/IconButton/IconButton'
+import { connect } from 'react-redux'
+import { openUpdateTweetForm } from '../../store/ducks/tweetForm'
 
 export type TweetProps = {
   data: TweetData
+  openUpdateTweetForm: (tweetId: string) => void
 }
 
-export const Tweet: React.FC<TweetProps> = ({ data }) => {
+const mapDispatchToProps = {
+  openUpdateTweetForm,
+}
+
+const ConnectedTweet: React.FC<TweetProps> = ({
+  data,
+  openUpdateTweetForm,
+}) => {
   return (
     <StyledTweet>
       <Avatar>
@@ -34,7 +44,7 @@ export const Tweet: React.FC<TweetProps> = ({ data }) => {
             {data.likes}
           </Likes>
           <IconButton>
-            <EditIcon />
+            <EditIcon onClick={() => openUpdateTweetForm(data.id)} />
           </IconButton>
           <IconButton>
             <DeleteIcon />
@@ -44,6 +54,8 @@ export const Tweet: React.FC<TweetProps> = ({ data }) => {
     </StyledTweet>
   )
 }
+
+export default connect(null, mapDispatchToProps)(ConnectedTweet)
 
 const StyledTweet = styled.div`
   width: 100%;

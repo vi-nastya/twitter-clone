@@ -57,6 +57,7 @@ const TweetForm: React.FC<TweetFormProps> = ({
   onTweetUpdate,
   tweetData,
 }) => {
+  console.log('TWEET FORM PROPS', tweetData)
   const onSubmit = async (data: NewTweetFormData) => {
     if (type === 'create') {
       const newTweetData = {
@@ -104,6 +105,8 @@ const TweetForm: React.FC<TweetFormProps> = ({
     }
   }
 
+  console.log('init val', initialValues)
+
   const { register, handleSubmit, watch, errors, reset } = useForm({
     mode: 'onChange',
     defaultValues: initialValues,
@@ -121,19 +124,16 @@ const TweetForm: React.FC<TweetFormProps> = ({
         <TweetFormWrapper>
           <input
             name="userHandle"
-            defaultValue=""
             ref={register({ required: false })}
             placeholder="Twitter handle"
           />
           <input
             name="userName"
-            defaultValue=""
             ref={register({ required: true })}
             placeholder="Display name"
           />
           <input
             name="text"
-            defaultValue=""
             ref={register({ required: true })}
             placeholder="What's happening?"
           />
