@@ -13,8 +13,9 @@ import { color } from './ui/helpers/color'
 import { TweetData } from './api/api-types'
 import moment from 'moment'
 import TweetForm from './ui/TweetForm/TweetForm'
-import { TweetsState } from './store/ducks/tweetsList'
 import { fetchTweets } from './store/ducks/tweetsList'
+import { RootState } from './store/state'
+import { openCreateTweetForm } from './store/ducks/tweetForm'
 
 moment.locale('en')
 
@@ -27,9 +28,23 @@ export type NewTweetFormData = {
 type AppProps = {
   tweetsData: TweetData[]
   fetchTweets: () => void
+  createTweet: () => void
 }
 
-const App: React.FC<AppProps> = ({ tweetsData = [], fetchTweets }) => {
+const mapStateToProps = (state: RootState) => ({
+  tweetsData: state.list.tweetsList,
+})
+
+const mapDispatchToProps = {
+  fetchTweets,
+  createTweet: openCreateTweetForm,
+}
+
+const App: React.FC<AppProps> = ({
+  tweetsData = [],
+  fetchTweets,
+  createTweet,
+}) => {
   useEffect(() => {
     // callAPI()
     fetchTweets()
@@ -58,41 +73,16 @@ const App: React.FC<AppProps> = ({ tweetsData = [], fetchTweets }) => {
     )
   }
 
+  console.log('app tweets', tweetsData)
+
   return (
     <div className="App">
       {/* <p>Api response: {apiResponse}</p> */}
+      <button onClick={createTweet}>New tweet</button>
       <TweetsList tweetsData={tweetsData} />
-      <TweetForm isOpen={true} onSubmit={onSubmit} onClose={() => {}} />
+      <TweetForm onSubmit={onSubmit} />
     </div>
   )
 }
 
-const mapStateToProps = (state: TweetsState) => ({
-  tweetsData: state.tweetsList,
-})
-
-export default connect(mapStateToProps, {
-  fetchTweets,
-})(hot(module)(App))
-
-const TweetFormWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 auto;
-
-  padding-top: 24px;
-
-  & input {
-    ${resetInput};
-    width: 400px;
-    height: 40px;
-    border: 1px solid ${color.border};
-
-    margin-bottom: 16px;
-    border-radius: 8px;
-    padding: 8px 16px;
-
-    font: inherit;
-  }
-`
+export default connect(mapStateToProps, mapDispatchToProps)(hot(module)(App))

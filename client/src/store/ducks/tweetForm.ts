@@ -1,5 +1,4 @@
-import { TweetsState } from './tweetsList'
-import { initialState } from '../state'
+import { initialFormState, TweetFormState } from '../state'
 
 // actions
 export const OPEN_CREATE_TWEET_FORM = 'OPEN_CREATE_TWEET_FORM'
@@ -42,7 +41,7 @@ export const closeTweetForm = (): CloseTweetFormAction => ({
 
 // reducers
 export default function (
-  state: TweetsState = initialState,
+  state: TweetFormState = initialFormState,
   action: TweetFormAction
 ) {
   switch (action.type) {
@@ -59,7 +58,7 @@ export default function (
       return {
         ...state,
         tweetForm: {
-          type: 'create',
+          type: 'update',
           tweetId: tweetId,
         },
       }

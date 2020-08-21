@@ -1,5 +1,5 @@
 import { TweetData } from '../../api/api-types'
-import { initialState } from '../state'
+import { initialListState, TweetsListState } from '../state'
 
 export const ADD_TWEET = 'ADD_TWEET'
 export const SET_TWEETS = 'SET_TWEETS'
@@ -51,12 +51,8 @@ export const fetchTweets = () => {
   }
 }
 
-export type TweetsState = {
-  tweetsList: TweetData[]
-}
-
 export default function (
-  state: TweetsState = initialState,
+  state: TweetsListState = initialListState,
   action: TweetsListActionType
 ) {
   switch (action.type) {

@@ -10,7 +10,8 @@ import moment from 'moment'
 import Button from '../basic/Button/Button'
 import { resetInput } from '../helpers/mixins'
 import { color } from '../helpers/color'
-import { TweetsState } from '../../store/state'
+import { RootState } from '../../store/state'
+import { closeTweetForm } from '../../store/ducks/tweetForm'
 
 moment.locale('en')
 
@@ -24,6 +25,15 @@ type TweetFormProps = {
   isOpen: boolean
   onClose: () => void
   onSubmit: (data: NewTweetFormData) => void
+}
+
+const mapStateToProps = (state: RootState) => ({
+  //tweetsData: state.tweetsList,
+  isOpen: !!state.form.tweetForm,
+})
+
+const mapDispatchToProps = {
+  onClose: closeTweetForm,
 }
 
 const TweetForm: React.FC<TweetFormProps> = ({ isOpen, onClose, onSubmit }) => {
@@ -122,12 +132,6 @@ const customStyles = {
   },
 }
 
-const mapStateToProps = (state: TweetsState) => ({
-  tweetsData: state.tweetsList,
-})
-
-export default connect(mapStateToProps)(TweetForm)
-
 const TweetFormContainer = styled.div``
 
 const TweetFormWrapper = styled.div`
@@ -151,3 +155,5 @@ const TweetFormWrapper = styled.div`
     font: inherit;
   }
 `
+
+export default connect(mapStateToProps, mapDispatchToProps)(TweetForm)

@@ -5,7 +5,10 @@ import { combineReducers } from 'redux'
 import tweetsListReducer from './ducks/tweetsList'
 import tweetFormReducer from './ducks/tweetForm'
 
-const rootReducer = combineReducers({ tweetsListReducer, tweetFormReducer })
+const rootReducer = combineReducers({
+  list: tweetsListReducer,
+  form: tweetFormReducer,
+})
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
