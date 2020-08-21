@@ -1,5 +1,6 @@
 import { TweetData } from '../../api/api-types'
 import { initialListState, TweetsListState } from '../state'
+import { api } from '../../api/api'
 
 export const ADD_TWEET = 'ADD_TWEET'
 export const SET_TWEETS = 'SET_TWEETS'
@@ -42,12 +43,9 @@ export const deleteTweet = (tweetId: string): DeleteTweetAction => ({
 
 export const fetchTweets = () => {
   // @ts-ignore
-  return (dispatch) => {
-    fetch('http://localhost:9000/api/tweets')
-      .then((res) => res.json())
-      .then((res) => {
-        dispatch(setTweets(res as TweetData[]))
-      })
+  return async (dispatch) => {
+    const result = await api.tweetsGet()
+    dispatch(setTweets(result as TweetData[]))
   }
 }
 

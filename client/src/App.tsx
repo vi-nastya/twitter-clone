@@ -16,6 +16,8 @@ import TweetForm from './ui/TweetForm/TweetForm'
 import { fetchTweets } from './store/ducks/tweetsList'
 import { RootState } from './store/state'
 import { openCreateTweetForm } from './store/ducks/tweetForm'
+import { apiClient } from './api/api-client'
+import { api } from './api/api'
 
 moment.locale('en')
 
@@ -50,37 +52,12 @@ const App: React.FC<AppProps> = ({
     fetchTweets()
   }, [])
 
-  const onSubmit = (data: NewTweetFormData) => {
-    console.log(data)
-
-    const newTweetData = {
-      ...data,
-      comments: 0,
-      likes: 0,
-      shares: 0,
-      published: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000]'),
-    }
-
-    axios.post('http://localhost:9000/api/tweets', newTweetData).then(
-      (response: any) => {
-        console.log(response)
-        //reset()
-        fetchTweets()
-      },
-      (error: any) => {
-        console.log(error)
-      }
-    )
-  }
-
-  console.log('app tweets', tweetsData)
-
   return (
     <div className="App">
       {/* <p>Api response: {apiResponse}</p> */}
       <button onClick={createTweet}>New tweet</button>
       <TweetsList tweetsData={tweetsData} />
-      <TweetForm onSubmit={onSubmit} />
+      <TweetForm type="create" />
     </div>
   )
 }

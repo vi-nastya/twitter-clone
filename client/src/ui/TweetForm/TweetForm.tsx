@@ -12,6 +12,7 @@ import { resetInput } from '../helpers/mixins'
 import { color } from '../helpers/color'
 import { RootState } from '../../store/state'
 import { closeTweetForm } from '../../store/ducks/tweetForm'
+import { api } from '../../api/api'
 
 moment.locale('en')
 
@@ -22,13 +23,12 @@ export type NewTweetFormData = {
 }
 
 type TweetFormProps = {
+  type: 'create' | 'edit'
   isOpen: boolean
   onClose: () => void
-  onSubmit: (data: NewTweetFormData) => void
 }
 
 const mapStateToProps = (state: RootState) => ({
-  //tweetsData: state.tweetsList,
   isOpen: !!state.form.tweetForm,
 })
 
@@ -36,35 +36,24 @@ const mapDispatchToProps = {
   onClose: closeTweetForm,
 }
 
-const TweetForm: React.FC<TweetFormProps> = ({ isOpen, onClose, onSubmit }) => {
+const TweetForm: React.FC<TweetFormProps> = ({ isOpen, onClose, type }) => {
   const { register, handleSubmit, watch, errors, reset } = useForm({
     mode: 'onChange',
   })
 
-  // TODO: reset form on successful submit
+  const onSubmit = async (data: NewTweetFormData) => {
+    const newTweetData = {
+      ...data,
+      likes: 0,
+      published: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000]'),
+    }
 
-  //   const onSubmit = (data: NewTweetFormData) => {
-  //     console.log(data)
+    const result = await api.tweetCreate(newTweetData)
+    // TODO: update tweets list
+    reset()
 
-  //     const newTweetData = {
-  //       ...data,
-  //       comments: 0,
-  //       likes: 0,
-  //       shares: 0,
-  //       published: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000]'),
-  //     }
-
-  //     axios.post('http://localhost:9000/api/tweets', newTweetData).then(
-  //       (response: any) => {
-  //         console.log(response)
-  //         reset()
-  //         fetchTweets()
-  //       },
-  //       (error: any) => {
-  //         console.log(error)
-  //       }
-  //     )
-  //   }
+    // TODO: handle errors
+  }
 
   return (
     <Modal
