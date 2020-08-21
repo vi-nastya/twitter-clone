@@ -13,6 +13,8 @@ import { color } from '../helpers/color'
 import { RootState } from '../../store/state'
 import { closeTweetForm } from '../../store/ducks/tweetForm'
 import { api } from '../../api/api'
+import { TweetData } from '../../api/api-types'
+import { addTweet, updateTweet } from '../../store/ducks/tweetsList'
 
 moment.locale('en')
 
@@ -26,6 +28,8 @@ type TweetFormProps = {
   type: 'create' | 'edit'
   isOpen: boolean
   onClose: () => void
+  onTweetAdd: (tweetData: TweetData) => void
+  onTweetUpdate: (tweetData: TweetData) => void
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -34,9 +38,17 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
   onClose: closeTweetForm,
+  onTweetAdd: addTweet,
+  onTweetUpdate: updateTweet,
 }
 
-const TweetForm: React.FC<TweetFormProps> = ({ isOpen, onClose, type }) => {
+const TweetForm: React.FC<TweetFormProps> = ({
+  isOpen,
+  onClose,
+  type,
+  onTweetAdd,
+  onTweetUpdate,
+}) => {
   const { register, handleSubmit, watch, errors, reset } = useForm({
     mode: 'onChange',
   })
@@ -49,8 +61,13 @@ const TweetForm: React.FC<TweetFormProps> = ({ isOpen, onClose, type }) => {
     }
 
     const result = await api.tweetCreate(newTweetData)
-    // TODO: update tweets list
+    if (type === 'create') {
+      onTweetAdd(result)
+    } else {
+      onTweetUpdate(result)
+    }
     reset()
+    onClose()
 
     // TODO: handle errors
   }
@@ -68,7 +85,7 @@ const TweetForm: React.FC<TweetFormProps> = ({ isOpen, onClose, type }) => {
           <input
             name="userHandle"
             defaultValue=""
-            ref={register({ required: true })}
+            ref={register({ required: false })}
             placeholder="Twitter handle"
           />
           <input
@@ -108,7 +125,6 @@ const customStyles = {
     border: 'none',
     overflow: 'visible',
     borderRadius: 16,
-    //osition: 'absolute',
 
     '@media (maxWidth:1023px)': {
       width: 'calc(100% - 32px)',

@@ -3,6 +3,7 @@ import { initialListState, TweetsListState } from '../state'
 import { api } from '../../api/api'
 
 export const ADD_TWEET = 'ADD_TWEET'
+export const UPDATE_TWEET = 'UPDATE_TWEET'
 export const SET_TWEETS = 'SET_TWEETS'
 export const DELETE_TWEET = 'DELETE_TWEET'
 export const GET_USER = 'GET_USER'
@@ -18,12 +19,21 @@ interface AddTweetAction {
   payload: TweetData
 }
 
+interface UpdateTweetAction {
+  type: typeof UPDATE_TWEET
+  payload: TweetData
+}
+
 interface DeleteTweetAction {
   type: typeof DELETE_TWEET
   payload: string
 }
 
-type TweetsListActionType = SetTweetsAction | AddTweetAction | DeleteTweetAction
+type TweetsListActionType =
+  | SetTweetsAction
+  | AddTweetAction
+  | DeleteTweetAction
+  | UpdateTweetAction
 
 // action creators
 export const setTweets = (tweetsData: TweetData[]): SetTweetsAction => ({
@@ -33,6 +43,11 @@ export const setTweets = (tweetsData: TweetData[]): SetTweetsAction => ({
 
 export const addTweet = (tweetData: TweetData): AddTweetAction => ({
   type: ADD_TWEET,
+  payload: tweetData,
+})
+
+export const updateTweet = (tweetData: TweetData): UpdateTweetAction => ({
+  type: UPDATE_TWEET,
   payload: tweetData,
 })
 
@@ -59,6 +74,15 @@ export default function (
       return {
         ...state,
         tweetsList: [...state.tweetsList, tweetData],
+      }
+    }
+    case UPDATE_TWEET: {
+      const tweetData = action.payload
+      const newTweets = [...state.tweetsList]
+      newTweets.map((t) => (t.id === tweetData.id ? tweetData : t))
+      return {
+        ...state,
+        tweetsList: [newTweets],
       }
     }
     case SET_TWEETS: {
