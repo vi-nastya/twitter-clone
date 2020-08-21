@@ -25,7 +25,7 @@ export type NewTweetFormData = {
 }
 
 type TweetFormProps = {
-  type: 'create' | 'edit'
+  type: 'create' | 'update' | null
   isOpen: boolean
   onClose: () => void
   onTweetAdd: (tweetData: TweetData) => void
@@ -34,6 +34,7 @@ type TweetFormProps = {
 
 const mapStateToProps = (state: RootState) => ({
   isOpen: !!state.form.tweetForm,
+  type: state.form.tweetForm?.type || null,
 })
 
 const mapDispatchToProps = {

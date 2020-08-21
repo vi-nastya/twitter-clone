@@ -30,7 +30,7 @@ export type NewTweetFormData = {
 type AppProps = {
   tweetsData: TweetData[]
   fetchTweets: () => void
-  createTweet: () => void
+  openCreateTweetForm: () => void
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -39,13 +39,13 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
   fetchTweets,
-  createTweet: openCreateTweetForm,
+  openCreateTweetForm,
 }
 
 const App: React.FC<AppProps> = ({
   tweetsData = [],
   fetchTweets,
-  createTweet,
+  openCreateTweetForm,
 }) => {
   useEffect(() => {
     // callAPI()
@@ -55,9 +55,9 @@ const App: React.FC<AppProps> = ({
   return (
     <div className="App">
       {/* <p>Api response: {apiResponse}</p> */}
-      <button onClick={createTweet}>New tweet</button>
+      <Button ghost onClick={openCreateTweetForm} text="New tweet" />
       <TweetsList tweetsData={tweetsData} />
-      <TweetForm type="create" />
+      <TweetForm />
     </div>
   )
 }
