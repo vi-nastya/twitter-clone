@@ -11,6 +11,7 @@ import IconButton from '../basic/IconButton/IconButton'
 import { connect } from 'react-redux'
 import { openUpdateTweetForm } from '../../store/ducks/tweetForm'
 import { deleteTweetById } from '../../store/ducks/tweetsList'
+import { formatTweetTime } from '../helpers/formatters'
 
 export type TweetProps = {
   data: TweetData
@@ -37,7 +38,7 @@ const ConnectedTweet: React.FC<TweetProps> = ({
         <TweetTopSection>
           <AuthorName>{data.userName}</AuthorName>
           <AuthorHandle>@{data.userHandle}</AuthorHandle>
-          <TweetDate>{data.published}</TweetDate>
+          <TweetDate>{formatTweetTime(data.published)}</TweetDate>
         </TweetTopSection>
         <TweetText>{data.text}</TweetText>
         <TweetActions>
