@@ -64,6 +64,14 @@ export const fetchTweets = () => {
   }
 }
 
+export const deleteTweetById = (tweetId: string) => {
+  // @ts-ignore
+  return async (dispatch) => {
+    const result = await api.tweetDelete(tweetId)
+    dispatch(deleteTweet(tweetId))
+  }
+}
+
 export default function (
   state: TweetsListState = initialListState,
   action: TweetsListActionType
@@ -82,7 +90,15 @@ export default function (
       newTweets.map((t) => (t.id === tweetData.id ? tweetData : t))
       return {
         ...state,
-        tweetsList: [newTweets],
+        tweetsList: newTweets,
+      }
+    }
+    case DELETE_TWEET: {
+      const tweetId = action.payload
+      const newTweets = state.tweetsList.filter((tweet) => tweet.id !== tweetId)
+      return {
+        ...state,
+        tweetsList: newTweets,
       }
     }
     case SET_TWEETS: {

@@ -10,19 +10,23 @@ import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg'
 import IconButton from '../basic/IconButton/IconButton'
 import { connect } from 'react-redux'
 import { openUpdateTweetForm } from '../../store/ducks/tweetForm'
+import { deleteTweetById } from '../../store/ducks/tweetsList'
 
 export type TweetProps = {
   data: TweetData
   openUpdateTweetForm: (tweetId: string) => void
+  deleteTweet: (tweetId: string) => void
 }
 
 const mapDispatchToProps = {
   openUpdateTweetForm,
+  deleteTweet: deleteTweetById,
 }
 
 const ConnectedTweet: React.FC<TweetProps> = ({
   data,
   openUpdateTweetForm,
+  deleteTweet,
 }) => {
   return (
     <StyledTweet>
@@ -47,7 +51,7 @@ const ConnectedTweet: React.FC<TweetProps> = ({
             <EditIcon onClick={() => openUpdateTweetForm(data.id)} />
           </IconButton>
           <IconButton>
-            <DeleteIcon />
+            <DeleteIcon onClick={() => deleteTweet(data.id)} />
           </IconButton>
         </TweetActions>
       </TweetWrapper>
