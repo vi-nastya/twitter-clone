@@ -19,7 +19,7 @@ export const TweetsList: React.FC<TweetsListProps> = ({ tweetsData }) => {
 }
 
 const StyledTweetsList = styled.div`
-  width: 800px;
+  width: 100%;
   margin: 0 auto;
 
   display: flex;
