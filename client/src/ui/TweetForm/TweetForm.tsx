@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { hot } from 'react-hot-loader'
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
-import axios from 'axios'
 import Modal from 'react-modal'
 
 import moment from 'moment'
@@ -57,7 +55,7 @@ const TweetForm: React.FC<TweetFormProps> = ({
   onTweetUpdate,
   tweetData,
 }) => {
-  console.log('TWEET FORM PROPS', tweetData)
+  console.log('TWEET FORM PROPS', type, tweetData)
   const onSubmit = async (data: NewTweetFormData) => {
     if (type === 'create') {
       const newTweetData = {
@@ -90,18 +88,17 @@ const TweetForm: React.FC<TweetFormProps> = ({
     // TODO: handle errors
   }
 
-  let initialValues
+  let initialValues: NewTweetFormData = {
+    userName: '',
+    userHandle: '',
+    text: '',
+  }
+
   if (!!tweetData) {
     initialValues = {
       userName: tweetData.userName,
       userHandle: tweetData.userHandle || '',
       text: tweetData.text,
-    }
-  } else {
-    initialValues = {
-      userName: '',
-      userHandle: '',
-      text: '',
     }
   }
 
@@ -111,6 +108,10 @@ const TweetForm: React.FC<TweetFormProps> = ({
     mode: 'onChange',
     defaultValues: initialValues,
   })
+
+  useEffect(() => {
+    reset(initialValues)
+  }, [reset, tweetData])
 
   return (
     <Modal
@@ -124,11 +125,13 @@ const TweetForm: React.FC<TweetFormProps> = ({
         <TweetFormWrapper>
           <input
             name="userHandle"
+            disabled={type === 'update'}
             ref={register({ required: false })}
             placeholder="Twitter handle"
           />
           <input
             name="userName"
+            disabled={type === 'update'}
             ref={register({ required: true })}
             placeholder="Display name"
           />
@@ -136,6 +139,7 @@ const TweetForm: React.FC<TweetFormProps> = ({
             name="text"
             ref={register({ required: true })}
             placeholder="What's happening?"
+            defaultValue={type === 'update' && tweetData ? tweetData.text : ''}
           />
           {/* errors will return when field validation fails  */}
           {/* {errors.exampleRequired && <span>This field is required</span>} */}
