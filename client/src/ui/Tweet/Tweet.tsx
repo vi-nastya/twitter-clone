@@ -90,6 +90,7 @@ const Avatar = styled.div`
 `
 
 const TweetWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
 `
@@ -150,11 +151,7 @@ const TweetActions = styled.div`
 
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-
-  & > * {
-    margin-right: 32px;
-  }
+  justify-content: space-between;
 `
 
 const Likes = styled.div`
