@@ -131,7 +131,7 @@ exports.addLike = (req, res) => {
         res.status(404).send({
           message: `Cannot add like for Tweet with id=${id}. Maybe Tweet was not found!`,
         })
-      } else res.send(data)
+      } else res.send({ likes: data.likes + 1 })
     })
     .catch((err) => {
       res.status(500).send({
