@@ -4,7 +4,6 @@ module.exports = (mongoose) => {
   let tweetSchema = new Schema(
     {
       userName: { type: String, required: true },
-      userHandle: { type: String, required: false },
       avatar: { type: String, required: false },
       created: { type: Date, required: true },
       updated: { type: Date, required: true },
