@@ -136,7 +136,7 @@ const customStyles = {
   content: {
     maxWidth: '500px',
     width: 'calc(100% - 32px)',
-    height: '468px',
+    /*height: '468px',*/
     top: '50%',
     bottom: 'auto',
     left: '50%',
@@ -167,6 +167,7 @@ const TweetFormWrapper = styled.div`
   margin: 0 auto;
 
   padding-top: 24px;
+  padding-bottom: 24px;
 
   & input {
     ${resetInput};
