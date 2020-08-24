@@ -28,6 +28,11 @@ class Api {
     const response = await apiClient.delete(`/tweets/${id}`)
     return response.data
   }
+
+  async tweetLike(id: string) {
+    const response = await apiClient.post(`/tweets/${id}/like`)
+    return response.data
+  }
 }
 
 export const api = new Api()

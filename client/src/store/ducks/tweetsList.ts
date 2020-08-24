@@ -7,6 +7,7 @@ export const UPDATE_TWEET = 'UPDATE_TWEET'
 export const SET_TWEETS = 'SET_TWEETS'
 export const DELETE_TWEET = 'DELETE_TWEET'
 export const GET_USER = 'GET_USER'
+export const ADD_TWEET_LIKE = 'ADD_TWEET_LIKE'
 
 // actions
 interface SetTweetsAction {
@@ -29,11 +30,17 @@ interface DeleteTweetAction {
   payload: string
 }
 
+interface AddTweetLikeAction {
+  type: typeof ADD_TWEET_LIKE
+  payload: { tweetId: string; likesCount: number }
+}
+
 type TweetsListActionType =
   | SetTweetsAction
   | AddTweetAction
   | DeleteTweetAction
   | UpdateTweetAction
+  | AddTweetLikeAction
 
 // action creators
 export const setTweets = (tweetsData: TweetData[]): SetTweetsAction => ({
@@ -56,6 +63,14 @@ export const deleteTweet = (tweetId: string): DeleteTweetAction => ({
   payload: tweetId,
 })
 
+export const addTweetLike = (
+  tweetId: string,
+  likes: number
+): AddTweetLikeAction => ({
+  type: ADD_TWEET_LIKE,
+  payload: { tweetId: tweetId, likesCount: likes },
+})
+
 export const fetchTweets = () => {
   // @ts-ignore
   return async (dispatch) => {
@@ -69,6 +84,14 @@ export const deleteTweetById = (tweetId: string) => {
   return async (dispatch) => {
     const result = await api.tweetDelete(tweetId)
     dispatch(deleteTweet(tweetId))
+  }
+}
+
+export const likeTweet = (tweetId: string) => {
+  // @ts-ignore
+  return async (dispatch) => {
+    const result = await api.tweetLike(tweetId)
+    dispatch(addTweetLike(tweetId, result.likes))
   }
 }
 
@@ -106,6 +129,16 @@ export default function (
       return {
         ...state,
         tweetsList: tweetsData,
+      }
+    }
+    case ADD_TWEET_LIKE: {
+      const { tweetId, likesCount } = action.payload
+      const newTweets = state.tweetsList.map((tweet) =>
+        tweet.id === tweetId ? { ...tweet, likes: likesCount } : tweet
+      )
+      return {
+        ...state,
+        tweetsList: newTweets,
       }
     }
     default:
