@@ -42,8 +42,6 @@ const ConnectedTweet: React.FC<TweetProps> = ({
         </TweetTopSection>
         <TweetText>{data.text}</TweetText>
         <TweetActions>
-          {/* <span>{data.comments} Comments</span>
-          <span>{data.shares} Share</span> */}
           <Likes>
             {data.likes === 0 ? <LikeIcon /> : <LikedIcon />}
             {data.likes}

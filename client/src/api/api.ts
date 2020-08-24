@@ -1,5 +1,5 @@
 import { apiClient } from './api-client'
-import { TweetData, NewTweetData } from './api-types'
+import { NewTweetData } from './api-types'
 
 class Api {
   constructor() {}

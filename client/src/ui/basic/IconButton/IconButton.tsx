@@ -2,7 +2,6 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 import { color } from '../../helpers/color'
 import { resetButton } from '../../helpers/mixins'
-import { device } from '../../helpers/device'
 
 export type IconButtonProps = {
   children?: React.ReactChild

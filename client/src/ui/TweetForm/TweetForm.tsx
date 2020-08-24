@@ -96,7 +96,7 @@ const TweetForm: React.FC<TweetFormProps> = ({
 
   console.log('init val', initialValues)
 
-  const { register, handleSubmit, watch, errors, reset } = useForm({
+  const { register, handleSubmit, errors, reset } = useForm({
     mode: 'onChange',
     defaultValues: initialValues,
   })
@@ -169,8 +169,6 @@ const customStyles = {
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
 }
-
-const TweetFormContainer = styled.div``
 
 const TweetFormWrapper = styled.div`
   display: flex;
