@@ -13,7 +13,6 @@ import { closeTweetForm } from '../../store/ducks/tweetForm'
 import { api } from '../../api/api'
 import { TweetData, NewTweetData } from '../../api/api-types'
 import { addTweet, updateTweet } from '../../store/ducks/tweetsList'
-import { NewTweetFormData } from '../../App'
 
 moment.locale('en')
 
@@ -64,7 +63,6 @@ const TweetForm: React.FC<TweetFormProps> = ({
       const updatedTweetData = {
         ...(tweetData as TweetData),
         userName: data.userName,
-        userHandle: data.userHandle,
         text: data.text,
       }
 
@@ -80,16 +78,14 @@ const TweetForm: React.FC<TweetFormProps> = ({
     // TODO: handle errors
   }
 
-  let initialValues: NewTweetFormData = {
+  let initialValues: NewTweetData = {
     userName: '',
-    userHandle: '',
     text: '',
   }
 
   if (!!tweetData) {
     initialValues = {
       userName: tweetData.userName,
-      userHandle: tweetData.userHandle || '',
       text: tweetData.text,
     }
   }
@@ -115,12 +111,6 @@ const TweetForm: React.FC<TweetFormProps> = ({
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <TweetFormWrapper>
-          <input
-            name="userHandle"
-            disabled={type === 'update'}
-            ref={register({ required: false })}
-            placeholder="Twitter handle"
-          />
           <input
             name="userName"
             disabled={type === 'update'}

@@ -15,12 +15,6 @@ import { openCreateTweetForm } from './store/ducks/tweetForm'
 
 moment.locale('en')
 
-export type NewTweetFormData = {
-  text: string
-  userName: string
-  userHandle: string
-}
-
 type AppProps = {
   tweetsData: TweetData[]
   fetchTweets: () => void

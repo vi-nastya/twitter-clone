@@ -40,7 +40,6 @@ const ConnectedTweet: React.FC<TweetProps> = ({
       <TweetWrapper>
         <TweetTopSection>
           <AuthorName>{data.userName}</AuthorName>
-          <AuthorHandle>@{data.userHandle}</AuthorHandle>
           <TweetDate>{formatTweetTime(data.created)}</TweetDate>
         </TweetTopSection>
         <TweetText>{data.text}</TweetText>
@@ -109,14 +108,8 @@ const AuthorName = styled.span`
   font-weight: bold;
   color: ${color.dark};
 
-  margin-right: 16px;
-`
+  margin-right: 18px;
 
-const AuthorHandle = styled.span`
-  font-size: 14px;
-  color: ${color.grey};
-
-  margin-right: 34px;
   position: relative;
 
   &::before {
@@ -128,7 +121,7 @@ const AuthorHandle = styled.span`
     background-color: ${color.grey};
 
     top: 8px;
-    right: -18px;
+    right: -10px;
   }
 `
 

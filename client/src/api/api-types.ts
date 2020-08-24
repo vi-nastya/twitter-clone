@@ -1,6 +1,5 @@
 export type TweetData = {
   userName: string
-  userHandle: string
   created: string
   updated: string
   text: string
@@ -10,6 +9,5 @@ export type TweetData = {
 
 export type NewTweetData = {
   userName: string
-  userHandle?: string
   text: string
 }
