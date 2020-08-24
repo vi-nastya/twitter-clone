@@ -6,13 +6,12 @@ import Modal from 'react-modal'
 
 import moment from 'moment'
 import Button from '../basic/Button/Button'
-import { resetInput } from '../helpers/mixins'
-import { color } from '../helpers/color'
 import { RootState } from '../../store/state'
 import { closeTweetForm } from '../../store/ducks/tweetForm'
 import { api } from '../../api/api'
 import { TweetData, NewTweetData } from '../../api/api-types'
 import { addTweet, updateTweet } from '../../store/ducks/tweetsList'
+import Input from '../basic/Input/Input'
 
 moment.locale('en')
 
@@ -111,13 +110,14 @@ const TweetForm: React.FC<TweetFormProps> = ({
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <TweetFormWrapper>
-          <input
+          <Input
             name="userName"
             disabled={type === 'update'}
             ref={register({ required: true })}
             placeholder="Your name"
           />
-          <input
+          <Input
+            multiline
             name="text"
             ref={register({ required: true })}
             placeholder="What's happening?"
@@ -169,24 +169,8 @@ const TweetFormWrapper = styled.div`
   padding-top: 24px;
   padding-bottom: 24px;
 
-  & input {
-    ${resetInput};
-    width: 400px;
-    height: 40px;
-    border: 2px solid ${color.border};
-
+  & > * {
     margin-bottom: 16px;
-    border-radius: 8px;
-    padding: 8px 16px;
-
-    font: inherit;
-
-    transition: border-color 0.25s;
-
-    &:focus,
-    &:hover {
-      border: 2px solid ${color.brand};
-    }
   }
 `
 
