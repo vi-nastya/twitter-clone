@@ -10,24 +10,27 @@ import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg'
 import IconButton from '../basic/IconButton/IconButton'
 import { connect } from 'react-redux'
 import { openUpdateTweetForm } from '../../store/ducks/tweetForm'
-import { deleteTweetById } from '../../store/ducks/tweetsList'
+import { deleteTweetById, likeTweet } from '../../store/ducks/tweetsList'
 import { formatTweetTime } from '../helpers/formatters'
 
 export type TweetProps = {
   data: TweetData
   openUpdateTweetForm: (tweetId: string) => void
   deleteTweet: (tweetId: string) => void
+  likeTweet: (tweetId: string) => void
 }
 
 const mapDispatchToProps = {
   openUpdateTweetForm,
   deleteTweet: deleteTweetById,
+  likeTweet,
 }
 
 const ConnectedTweet: React.FC<TweetProps> = ({
   data,
   openUpdateTweetForm,
   deleteTweet,
+  likeTweet,
 }) => {
   return (
     <StyledTweet>
@@ -43,14 +46,16 @@ const ConnectedTweet: React.FC<TweetProps> = ({
         <TweetText>{data.text}</TweetText>
         <TweetActions>
           <Likes>
-            {data.likes === 0 ? <LikeIcon /> : <LikedIcon />}
+            <IconButton onClick={() => likeTweet(data.id)}>
+              {data.likes === 0 ? <LikeIcon /> : <LikedIcon />}
+            </IconButton>
             {data.likes}
           </Likes>
-          <IconButton>
-            <EditIcon onClick={() => openUpdateTweetForm(data.id)} />
+          <IconButton onClick={() => openUpdateTweetForm(data.id)}>
+            <EditIcon />
           </IconButton>
-          <IconButton>
-            <DeleteIcon onClick={() => deleteTweet(data.id)} />
+          <IconButton onClick={() => deleteTweet(data.id)}>
+            <DeleteIcon />
           </IconButton>
         </TweetActions>
       </TweetWrapper>
@@ -159,6 +164,5 @@ const Likes = styled.div`
   svg {
     width: 15px;
     height: 15px;
-    margin-right: 5px;
   }
 `
