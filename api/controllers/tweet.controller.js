@@ -9,9 +9,13 @@ exports.create = (req, res) => {
     return
   }
 
+  const currentDate = new Date(Date.now()).toISOString()
   // create tweet
   const tweet = new Tweet({
     ...req.body,
+    created: currentDate,
+    updated: currentDate,
+    likes: 0,
   })
 
   // save to bg
@@ -66,7 +70,11 @@ exports.update = (req, res) => {
 
   const id = req.params.id
 
-  Tweet.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+  Tweet.findByIdAndUpdate(
+    id,
+    { text: req.body.text, updated: new Date(Date.now()).toISOString() },
+    { useFindAndModify: false }
+  )
     .then((data) => {
       if (!data) {
         res.status(404).send({

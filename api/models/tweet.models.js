@@ -6,12 +6,11 @@ module.exports = (mongoose) => {
       userName: { type: String, required: true },
       userHandle: { type: String, required: false },
       avatar: { type: String, required: false },
-      published: { type: Date, required: true },
+      created: { type: Date, required: true },
+      updated: { type: Date, required: true },
       text: { type: String, required: true },
       image: { type: String, required: false },
-      comments: { type: Number, required: false },
-      shares: { type: Number, required: false },
-      likes: { type: Number, required: false },
+      likes: { type: Number, required: true },
     },
     { timestamp: true }
   )
