@@ -72,7 +72,12 @@ exports.update = (req, res) => {
 
   Tweet.findByIdAndUpdate(
     id,
-    { text: req.body.text, updated: new Date(Date.now()).toISOString() },
+    {
+      $set: {
+        text: req.body.text,
+        updated: new Date(Date.now()).toISOString(),
+      },
+    },
     { useFindAndModify: false }
   )
     .then((data) => {
@@ -108,6 +113,29 @@ exports.delete = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: 'Could not delete Tweet with id=' + id,
+      })
+    })
+}
+
+// update
+exports.addLike = (req, res) => {
+  const id = req.params.id
+
+  Tweet.findByIdAndUpdate(
+    id,
+    { $inc: { likes: 1 } },
+    { useFindAndModify: false }
+  )
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot add like for Tweet with id=${id}. Maybe Tweet was not found!`,
+        })
+      } else res.send(data)
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: 'Error adding like for Tweet with id=' + id,
       })
     })
 }
