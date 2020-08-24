@@ -11,16 +11,11 @@ import { color } from '../helpers/color'
 import { RootState } from '../../store/state'
 import { closeTweetForm } from '../../store/ducks/tweetForm'
 import { api } from '../../api/api'
-import { TweetData } from '../../api/api-types'
+import { TweetData, NewTweetData } from '../../api/api-types'
 import { addTweet, updateTweet } from '../../store/ducks/tweetsList'
+import { NewTweetFormData } from '../../App'
 
 moment.locale('en')
-
-export type NewTweetFormData = {
-  text: string
-  userName: string
-  userHandle: string
-}
 
 type TweetFormProps = {
   type: 'create' | 'update' | null
@@ -56,12 +51,10 @@ const TweetForm: React.FC<TweetFormProps> = ({
   tweetData,
 }) => {
   console.log('TWEET FORM PROPS', type, tweetData)
-  const onSubmit = async (data: NewTweetFormData) => {
+  const onSubmit = async (data: NewTweetData) => {
     if (type === 'create') {
       const newTweetData = {
         ...data,
-        likes: 0,
-        published: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000]'),
       }
 
       const result = await api.tweetCreate(newTweetData)
@@ -73,7 +66,6 @@ const TweetForm: React.FC<TweetFormProps> = ({
         userName: data.userName,
         userHandle: data.userHandle,
         text: data.text,
-        updated: moment(new Date()).format('YYYY-MM-DD[T00:00:00.000]'),
       }
 
       const result = await api.tweetUpdate(

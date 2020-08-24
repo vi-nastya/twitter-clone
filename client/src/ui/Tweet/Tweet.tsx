@@ -38,7 +38,7 @@ const ConnectedTweet: React.FC<TweetProps> = ({
         <TweetTopSection>
           <AuthorName>{data.userName}</AuthorName>
           <AuthorHandle>@{data.userHandle}</AuthorHandle>
-          <TweetDate>{formatTweetTime(data.published)}</TweetDate>
+          <TweetDate>{formatTweetTime(data.created)}</TweetDate>
         </TweetTopSection>
         <TweetText>{data.text}</TweetText>
         <TweetActions>

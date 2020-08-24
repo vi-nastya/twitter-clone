@@ -1,5 +1,5 @@
 import { apiClient } from './api-client'
-import { TweetData } from './api-types'
+import { TweetData, NewTweetData } from './api-types'
 
 class Api {
   constructor() {}
@@ -9,7 +9,7 @@ class Api {
     return response.data
   }
 
-  async tweetCreate(data: Omit<TweetData, 'id'>) {
+  async tweetCreate(data: NewTweetData) {
     const response = await apiClient.post('/tweets', data)
     return response.data
   }
@@ -19,7 +19,7 @@ class Api {
     return response.data
   }
 
-  async tweetUpdate(id: string, data: TweetData) {
+  async tweetUpdate(id: string, data: NewTweetData) {
     const response = await apiClient.put(`/tweets/${id}`, data)
     return response.data
   }
