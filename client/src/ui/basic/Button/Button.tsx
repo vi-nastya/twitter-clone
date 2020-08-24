@@ -28,6 +28,11 @@ const ghostButton = css`
   color: ${color.dark};
   background-color: transparent;
   border: 2px solid ${color.border};
+
+  &:hover {
+    border-color: ${color.brand};
+    background-color: transparent;
+  }
 `
 
 const disabledButton = css`
@@ -56,7 +61,7 @@ const StyledButton = styled.button<{ ghost: boolean; disabled?: boolean }>`
   cursor: pointer;
   user-select: none;
 
-  transition: all 0.2s;
+  transition: border-color 0.25s, background-color 0.25s;
 
   &,
   &:focus {
@@ -64,7 +69,7 @@ const StyledButton = styled.button<{ ghost: boolean; disabled?: boolean }>`
   }
 
   &:hover {
-    transform: scale(1.035);
+    background-color: ${color.brandHover};
   }
 
   ${(props) => props.ghost && ghostButton}

@@ -56,7 +56,7 @@ const StyledButton = styled.button<{ disabled?: boolean }>`
   cursor: pointer;
   user-select: none;
 
-  transition: background-color 0.2s;
+  transition: background-color 0.25s;
 
   & svg {
     height: 15px;

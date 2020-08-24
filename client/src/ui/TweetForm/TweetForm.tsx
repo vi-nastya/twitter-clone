@@ -115,7 +115,7 @@ const TweetForm: React.FC<TweetFormProps> = ({
             name="userName"
             disabled={type === 'update'}
             ref={register({ required: true })}
-            placeholder="Display name"
+            placeholder="Your name"
           />
           <input
             name="text"
@@ -156,7 +156,7 @@ const customStyles = {
   },
   overlay: {
     zIndex: 100,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
 }
 
@@ -173,13 +173,20 @@ const TweetFormWrapper = styled.div`
     ${resetInput};
     width: 400px;
     height: 40px;
-    border: 1px solid ${color.border};
+    border: 2px solid ${color.border};
 
     margin-bottom: 16px;
     border-radius: 8px;
     padding: 8px 16px;
 
     font: inherit;
+
+    transition: border-color 0.25s;
+
+    &:focus,
+    &:hover {
+      border: 2px solid ${color.brand};
+    }
   }
 `
 
