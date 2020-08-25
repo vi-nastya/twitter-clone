@@ -4,9 +4,7 @@ import { color } from '../../helpers/color'
 import { resetButton, resetInput } from '../../helpers/mixins'
 
 export type InputProps = {
-  /*placeholder?: string*/
-  /*value: string
-   */
+  placeholder?: string
   name: string
   className?: string
   multiline?: boolean
@@ -32,9 +30,21 @@ const InputWithRef = React.forwardRef<any, InputProps>(
       <StyledInput className={className}>
         {multiline ? (
           // @ts-ignore
-          <textarea disabled={disabled} name={name} {...rest} ref={ref} />
+          <textarea
+            disabled={disabled}
+            placeholder={placeholder}
+            name={name}
+            {...rest}
+            ref={ref}
+          />
         ) : (
-          <input disabled={disabled} name={name} {...rest} ref={ref} />
+          <input
+            disabled={disabled}
+            placeholder={placeholder}
+            name={name}
+            {...rest}
+            ref={ref}
+          />
         )}
       </StyledInput>
     )

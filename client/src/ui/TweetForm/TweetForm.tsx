@@ -12,8 +12,12 @@ import { api } from '../../api/api'
 import { TweetData, NewTweetData } from '../../api/api-types'
 import { addTweet, updateTweet } from '../../store/ducks/tweetsList'
 import Input from '../basic/Input/Input'
+import { color } from '../helpers/color'
 
 moment.locale('en')
+
+const MAX_NAME_LENGTH = 25
+const MAX_TEXT_LENGTH = 220
 
 type TweetFormProps = {
   type: 'create' | 'update' | null
@@ -114,18 +118,28 @@ const TweetForm: React.FC<TweetFormProps> = ({
           <Input
             name="userName"
             disabled={type === 'update'}
-            ref={register({ required: true })}
+            ref={register({ required: true, maxLength: MAX_NAME_LENGTH })}
             placeholder="Your name"
           />
           <Input
             multiline
             name="text"
-            ref={register({ required: true })}
+            ref={register({ required: true, maxLength: MAX_TEXT_LENGTH })}
             placeholder="What's happening?"
             defaultValue={type === 'update' && tweetData ? tweetData.text : ''}
           />
           {/* errors will return when field validation fails  */}
           {/* {errors.exampleRequired && <span>This field is required</span>} */}
+          {errors.userName && errors.userName.type === 'maxLength' && (
+            <ErrorMessage>
+              Name is too long. {MAX_NAME_LENGTH} characters max
+            </ErrorMessage>
+          )}
+          {errors.text && errors.text.type === 'maxLength' && (
+            <ErrorMessage>
+              Text is too long. {MAX_TEXT_LENGTH} characters max
+            </ErrorMessage>
+          )}
           <Button type="submit" text="Tweet" />
         </TweetFormWrapper>
       </form>
@@ -173,6 +187,10 @@ const TweetFormWrapper = styled.div`
   & > * {
     margin-bottom: 16px;
   }
+`
+
+const ErrorMessage = styled.span`
+  color: ${color.error};
 `
 
 export default connect(mapStateToProps, mapDispatchToProps)(TweetForm)
