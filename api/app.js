@@ -1,19 +1,15 @@
-const createError = require('http-errors')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const https = require('https')
+const fs = require('fs')
 
-const path = require('path')
-const cookieParser = require('cookie-parser')
-const logger = require('morgan')
+const key = fs.readFileSync(__dirname + '/certs/selfsigned.key')
+const cert = fs.readFileSync(__dirname + '/certs/selfsigned.crt')
 
 const corsOptions = {
   origin: 'http://localhost:3000',
 }
-
-const indexRouter = require('./routes/index')
-const usersRouter = require('./routes/users')
-// const testAPIRouter = require('./routes/testAPI')
 
 const app = express()
 app.use(cors(corsOptions))
@@ -41,12 +37,6 @@ app.get('/', (req, res) => {
 
 require('./routes/tweet.routes')(app)
 
-// set port, listen for requests
-const PORT = process.env.PORT || 9000
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-})
-
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
@@ -59,3 +49,11 @@ app.use(function (err, req, res, next) {
 })
 
 module.exports = app
+
+// set port, listen for requests
+const port = process.env.PORT || 9000
+const server = https.createServer({ key, cert }, app)
+
+server.listen(port, () => {
+  console.log('server starting on port : ' + port)
+})
