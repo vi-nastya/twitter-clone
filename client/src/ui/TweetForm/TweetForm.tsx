@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
@@ -52,17 +52,23 @@ const TweetForm: React.FC<TweetFormProps> = ({
   onTweetUpdate,
   tweetData,
 }) => {
-  console.log('TWEET FORM PROPS', type, tweetData)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const onSubmit = async (data: NewTweetData) => {
-    console.log('submit', data)
+    setIsSubmitting(true)
     if (type === 'create') {
       const newTweetData = {
         ...data,
       }
 
-      const result = await api.tweetCreate(newTweetData)
-
-      onTweetAdd(result)
+      try {
+        const result = await api.tweetCreate(newTweetData)
+        onTweetAdd(result)
+        reset()
+        onClose()
+      } catch (err) {
+        console.error(err)
+      }
     } else {
       const updatedTweetData = {
         ...(tweetData as TweetData),
@@ -70,16 +76,20 @@ const TweetForm: React.FC<TweetFormProps> = ({
         text: data.text,
       }
 
-      const result = await api.tweetUpdate(
-        updatedTweetData.id,
-        updatedTweetData
-      )
-      onTweetUpdate(result)
+      try {
+        const result = await api.tweetUpdate(
+          updatedTweetData.id,
+          updatedTweetData
+        )
+        onTweetUpdate(result)
+        reset()
+        onClose()
+      } catch (err) {
+        console.error(err)
+      }
     }
-    reset()
-    onClose()
 
-    // TODO: handle errors
+    setIsSubmitting(false)
   }
 
   let initialValues: NewTweetData = {
@@ -140,7 +150,7 @@ const TweetForm: React.FC<TweetFormProps> = ({
               Text is too long. {MAX_TEXT_LENGTH} characters max
             </ErrorMessage>
           )}
-          <Button type="submit" text="Tweet" />
+          <Button type="submit" disabled={isSubmitting} text="Tweet" />
         </TweetFormWrapper>
       </form>
     </Modal>
