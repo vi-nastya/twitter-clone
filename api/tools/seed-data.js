@@ -1,6 +1,28 @@
 const { exec } = require('child_process')
 const { json } = require('body-parser')
 
+const { tweets } = require('./initial-data')
+
+// clear database
+const MongoClient = require('mongodb').MongoClient
+
+const clearDb = () => {
+  return new Promise((resolve, reject) => {
+    MongoClient.connect('mongodb://localhost:27017/', function (err, db) {
+      if (err) throw err
+      var dbo = db.db('tweets_db')
+      dbo.collection('tweets').drop(function (err, delOK) {
+        if (err) throw err
+        if (delOK) {
+          console.log('Collection deleted')
+          resolve('deleted')
+        }
+        db.close()
+      })
+    })
+  })
+}
+
 const runCurl = (cmd) => {
   return new Promise((resolve, reject) => {
     exec(cmd, (error, stdout, stderr) => {
@@ -28,43 +50,24 @@ const likeTweet = (tweetId) => {
     `
 }
 
-const tweets = [
-  {
-    tweetData: {
-      userName: 'Anastasia',
-      text: 'Meow 😻',
-    },
-    likes: 10,
-  },
-  {
-    tweetData: {
-      userName: 'Anastasia',
-      text: 'RRRR!!!',
-    },
-    likes: 2,
-  },
-  {
-    tweetData: {
-      userName: 'Anastasia',
-      text: 'Shshshs',
-    },
-    likes: 15,
-  },
-]
-tweets.forEach(async (tweet) => {
-  const tweetCmd = postTweet(tweet.tweetData)
-  try {
-    const res = await runCurl(tweetCmd)
-    console.log('tweet', res)
+const main = async () => {
+  await clearDb()
 
-    const tweetId = JSON.parse(res).id
-    console.log('id', tweetId)
+  for (const tweet of tweets) {
+    const tweetCmd = postTweet(tweet.tweetData)
+    try {
+      const res = await runCurl(tweetCmd)
 
-    // like it
-    for (let i = 0; i < tweet.likes; i++) {
-      await runCurl(likeTweet(tweetId))
+      const tweetId = JSON.parse(res).id
+
+      // like it
+      for (let i = 0; i < tweet.likes; i++) {
+        await runCurl(likeTweet(tweetId))
+      }
+    } catch (err) {
+      console.error('Something went wrong:', err)
     }
-  } catch (err) {
-    console.error('Something went wrong:', err)
   }
-})
+}
+
+main()
