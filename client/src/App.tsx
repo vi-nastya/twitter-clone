@@ -55,6 +55,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(hot(module)(App))
 const Wrapper = styled.div`
   margin: 0 auto;
   max-width: 700px;
+  padding-top: 40px;
   width: 100%;
   display: flex;
   flex-direction: column;
