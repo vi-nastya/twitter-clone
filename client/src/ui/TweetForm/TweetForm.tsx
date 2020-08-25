@@ -50,6 +50,7 @@ const TweetForm: React.FC<TweetFormProps> = ({
 }) => {
   console.log('TWEET FORM PROPS', type, tweetData)
   const onSubmit = async (data: NewTweetData) => {
+    console.log('submit', data)
     if (type === 'create') {
       const newTweetData = {
         ...data,

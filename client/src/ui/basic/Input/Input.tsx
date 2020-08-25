@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 import { color } from '../../helpers/color'
 import { resetButton, resetInput } from '../../helpers/mixins'
 
-export type ButtonProps = {
+export type InputProps = {
   /*placeholder?: string*/
   /*value: string
    */
@@ -15,26 +15,31 @@ export type ButtonProps = {
   HTMLInputElement
 >
 
-const Input = ({
-  placeholder = '',
-  value = '',
-  disabled = false,
-  className = '',
-  multiline = false,
-  name,
-  ...rest
-}: ButtonProps) => {
-  return (
-    <StyledInput className={className}>
-      {multiline ? (
-        // @ts-ignore
-        <textarea disabled={disabled} name={name} {...rest} />
-      ) : (
-        <input disabled={disabled} name={name} {...rest} />
-      )}
-    </StyledInput>
-  )
-}
+const InputWithRef = React.forwardRef<any, InputProps>(
+  (
+    {
+      placeholder = '',
+      value = '',
+      disabled = false,
+      className = '',
+      multiline = false,
+      name,
+      ...rest
+    },
+    ref
+  ) => {
+    return (
+      <StyledInput className={className}>
+        {multiline ? (
+          // @ts-ignore
+          <textarea disabled={disabled} name={name} {...rest} ref={ref} />
+        ) : (
+          <input disabled={disabled} name={name} {...rest} ref={ref} />
+        )}
+      </StyledInput>
+    )
+  }
+)
 
 const StyledInput = styled.div`
   width: 400px;
@@ -64,4 +69,4 @@ const StyledInput = styled.div`
   }
 `
 
-export default Input
+export default InputWithRef
