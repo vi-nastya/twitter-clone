@@ -1,5 +1,5 @@
 export const color = {
-  lightBg: '#F5F8FA',
+  lightBg: '#D5D8DA',
   white: '#ffffff',
   border: '#D6DCE0',
   brand: '#1A95E0',

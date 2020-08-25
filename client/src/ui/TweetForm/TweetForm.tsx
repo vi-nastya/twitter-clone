@@ -13,6 +13,8 @@ import { TweetData, NewTweetData } from '../../api/api-types'
 import { addTweet, updateTweet } from '../../store/ducks/tweetsList'
 import Input from '../basic/Input/Input'
 import { color } from '../helpers/color'
+import IconButton from '../basic/IconButton/IconButton'
+import { ReactComponent as DeleteIcon } from '../../assets/icons/delete.svg'
 
 moment.locale('en')
 
@@ -125,6 +127,14 @@ const TweetForm: React.FC<TweetFormProps> = ({
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <TweetFormWrapper>
+          <CloseButton
+            onClick={() => {
+              reset()
+              onClose()
+            }}
+          >
+            <DeleteIcon />
+          </CloseButton>
           <Input
             name="userName"
             disabled={type === 'update'}
@@ -191,11 +201,23 @@ const TweetFormWrapper = styled.div`
   align-items: center;
   margin: 0 auto;
 
-  padding-top: 24px;
+  padding-top: 32px;
   padding-bottom: 24px;
+
+  position: relative;
 
   & > * {
     margin-bottom: 16px;
+  }
+`
+
+const CloseButton = styled(IconButton)`
+  position: absolute;
+  right: 8px;
+  top: 8px;
+
+  color: ${color.brand};
+  svg {
   }
 `
 
