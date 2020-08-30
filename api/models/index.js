@@ -1,12 +1,12 @@
-const dbConfig = require("../config/db.config.js");
+const dbConfig = require('../config/db.config.js')
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 //mongoose.Promise = global.Promise();
 
-const db = {};
-db.mongoose = mongoose;
+const db = {}
+db.mongoose = mongoose
 
-db.url = dbConfig.url;
-db.tweets = require("./tweet.models.js")(mongoose);
+db.url = dbConfig.url
+db.tweets = require('./tweet.models.js')
 
-module.exports = db;
+module.exports = db
