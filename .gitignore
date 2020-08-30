@@ -3,9 +3,10 @@
 # dependencies
 /client/node_modules
 /api/node_modules
+/api/.nyc_output
 
 # testing
-/coverage
+/api/coverage
 
 # production
 /client/build
