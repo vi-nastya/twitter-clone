@@ -1,4 +1,5 @@
 const db = require('../models')
+const { mongoose } = require('../models')
 const Tweet = db.tweets
 
 // create and Save a new one
@@ -48,6 +49,10 @@ exports.findAll = (req, res) => {
 // find a single tweet with id
 exports.findOne = (req, res) => {
   const id = req.params.id
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send({ message: 'Invalid tweet id' })
+  }
 
   Tweet.findById(id)
     .then((data) => {
@@ -120,6 +125,10 @@ exports.delete = (req, res) => {
 // update
 exports.addLike = (req, res) => {
   const id = req.params.id
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send({ message: 'Invalid tweet id' })
+  }
 
   Tweet.findByIdAndUpdate(
     id,
