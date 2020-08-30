@@ -1,25 +1,22 @@
-module.exports = (app) => {
-  const tweets = require('../controllers/tweet.controller.js')
+const tweets = require('../controllers/tweet.controller.js')
+const router = require('express').Router()
 
-  var router = require('express').Router()
+// create a new Tweet
+router.post('/', tweets.create)
 
-  // create a new Tweet
-  router.post('/', tweets.create)
+// retrieve all
+router.get('/', tweets.findAll)
 
-  // retrieve all
-  router.get('/', tweets.findAll)
+// retrieve a single tweet with id
+router.get('/:id', tweets.findOne)
 
-  // retrieve a single tweet with id
-  router.get('/:id', tweets.findOne)
+// update by id
+router.put('/:id', tweets.update)
 
-  // update by id
-  router.put('/:id', tweets.update)
+// delete
+router.delete('/:id', tweets.delete)
 
-  // delete
-  router.delete('/:id', tweets.delete)
+// add like
+router.post('/:id/like', tweets.addLike)
 
-  // add like
-  router.post('/:id/like', tweets.addLike)
-
-  app.use('/api/tweets', router)
-}
+module.exports = router

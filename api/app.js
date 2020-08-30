@@ -2,10 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const https = require('https')
+const createError = require('http-error')
 const fs = require('fs')
-
-const key = fs.readFileSync(__dirname + '/certs/selfsigned.key')
-const cert = fs.readFileSync(__dirname + '/certs/selfsigned.crt')
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -15,9 +13,9 @@ const app = express()
 app.use(cors(corsOptions))
 
 // parse requests of content-type application/json
-app.use(bodyParser.json())
+app.use(express.json())
 // parse requests of content-type application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
 
 const db = require('./models')
 db.mongoose
@@ -30,12 +28,12 @@ db.mongoose
     process.exit()
   })
 
-// simple route
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the twitter clone app' })
-})
+const tweetsRouter = require('./routes/tweet.routes')
+app.use('/api/tweets', tweetsRouter)
 
-require('./routes/tweet.routes')(app)
+app.use((req, res, next) => {
+  next(createError(404))
+})
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -45,15 +43,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500)
-  res.render('error')
+  res.send(err)
 })
 
 module.exports = app
-
-// set port, listen for requests
-const port = process.env.PORT || 9000
-const server = https.createServer({ key, cert }, app)
-
-server.listen(port, () => {
-  console.log('server starting on port : ' + port)
-})
