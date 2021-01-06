@@ -15,7 +15,7 @@
     "@types/react-modal": "^3.10.6",
     "@types/react-redux": "^7.1.9",
     "@types/styled-components": "^5.1.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cypress": "^4.12.1",
     "moment": "^2.27.0",
     "moment-locales-webpack-plugin": "^1.2.0",
